@@ -9,32 +9,43 @@ namespace ddac.Controllers
 {
     public class AdminController : Controller
     {
+
+
+        private UserDBContext db = new UserDBContext();
+
         // GET: Admin
-        public ActionResult Index(UserModel admin)
+        public ActionResult Index(User admin)
         {
+            TempData["logged"] = "guest";
             var vm = admin;
             return View(vm);
         }
 
-        public ActionResult Login() {
-            var vm = new UserModel();
-            vm.UserType = "guest";
+        public ActionResult Login()
+        {
+            TempData["logged"] = "guest";
+            var vm = new User
+            {
+                UserType = "guest"
+            };
             return View(vm);
         }
 
         [HttpPost]
-        public ActionResult Login(UserModel admin) {
-            var tempAdminVM = new UserModel
+        public ActionResult Login(User admin)
+        {
+
+            User tempAdminVM = new User
             {
                 Username = admin.Username,
                 Password = admin.Password,
                 UserType = "admin",
             };
 
-
             if (tempAdminVM.Username.Equals("admin"))
             {
-                    return RedirectToAction("Index", "Admin", tempAdminVM);
+                TempData["logged"] = "admin";
+                return RedirectToAction("Index", "Admin", tempAdminVM);
             }
             else
             {
@@ -42,9 +53,37 @@ namespace ddac.Controllers
             }
         }
 
-        public ActionResult Add_Agent(UserModel admin) {
-            var vm = admin;
+        public new ActionResult User(User admin)
+        {
+
+            var vm = new User();
             return View(vm);
         }
+
+        public PartialViewResult _AgentList()
+        {
+            return PartialView(db.Users);
+        }
+
+        public PartialViewResult _AddAgent()
+        {
+
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _AddAgent([Bind(Include = "ID,Username,Password,UserType,Name")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Users.Add(user);
+                db.SaveChanges();
+
+                return RedirectToAction("User", new User { UserType ="admin"});
+            }
+            return View(user);
+        }
+
     }
 }

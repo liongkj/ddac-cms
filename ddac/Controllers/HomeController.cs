@@ -11,7 +11,8 @@ namespace ddac.Controllers
     {
         public ActionResult Index()
         {
-            var vm = new UserModel();
+            var vm = new User();
+            TempData["logged"] = "guest";
             vm.UserType = "guest";
             return View(vm);
         }

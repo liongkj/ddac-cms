@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "User";
+}
+
+<button class="btn btn-danger" type="button" style="margin:10px"
+        data-toggle="modal" data-target="#addModal">Add Agent</button>
+
+@{
+    Html.RenderAction("_AgentList");
+}
+
+
+<div class="modal" role="dialog" id="addModal">
+    <div class="modal-dialog" ">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add new Agent</h4>
+
+            </div>
+            <div class="modal-body">
+                <p>
+                    @{
+                        Html.RenderAction("_AddAgent");
+                    }
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>

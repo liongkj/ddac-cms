@@ -1,4 +1,4 @@
-﻿@model ddac.Models.UserModel
+﻿@model ddac.Models.User
 
 <!DOCTYPE html>
 <html>
@@ -11,32 +11,28 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark" >
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark" style="padding-left:9%" >
         @Html.ActionLink("CMS", "Index", Model, new { @class = "navbar-brand" })
         <button class="navbar-toggler" aria-expanded="false" aria-controls="navbarColor02" aria-label="Toggle navigation" type="button" data-target="#navbarColor02" data-toggle="collapse">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarColor02">
+        <div class="collapse navbar-collapse" id="navbarColor02" style="margin-left:20px">
             <ul class="navbar-nav mr-auto">
 
-                @if (Model.UserType.Equals("guest"))
+                @if (TempData["logged"].Equals("guest"))
                 {
-
-
                     <li class="nav-item">
                         <a class="nav-link" href="#">Features</a>
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("Admin Login", "Login", "Admin", null, new { @class = "nav-link" })
                     </li>
-
                 }
-                else
+                else if (TempData["logged"].Equals("admin"))
                 {
-
                     <li class="nav-item">
-                        @Html.ActionLink("Add Agent", "Add_Agent", "Admin", Model, new { @class = "nav-link" })
+                        @Html.ActionLink("User Management", "User", "Admin", Model, new { @class = "nav-link" })
                     </li>
                 }
 
@@ -48,8 +44,9 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
+        
+        <footer style="bottom:0">
+            <hr />
             <p>&copy; @DateTime.Now.Year - Cargo Management System</p>
         </footer>
     </div>
