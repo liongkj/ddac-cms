@@ -1,25 +1,30 @@
 ﻿@model IEnumerable<ddac.Models.User>
 
-    @{
-        ViewBag.Title = "agentList";
-    }
-    
-    <table class=" table table-hover">
-        <thead>
-            <tr>
-                <th>Agent Id</th>
-                <th>Username</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var agent in @Model)
-    {
-        <tr>
-            <td>@agent.ID</td>
-            <td>@agent.Username</td>
-            <td>@agent.Name</td>
-        </tr>
+@{
+    ViewBag.Title = "agentList";
 }
-        </tbody>
-    </table>
+
+<table class=" table table-hover">
+    <thead>
+        <tr>
+            <th>Agent Id</th>
+            <th>Username</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var agent in @Model)
+        {
+            <tr>
+                <td>@("A" + agent.UserId.ToString("D4"))</td>
+                <td>@agent.Username</td>
+                <td>@agent.Name</td>
+                @*<td>
+                    @Html.ActionLink("Edit", "_EditAgent", new { id = agent.UserId })|
+                    @Html.ActionLink("Details", "Details", new { id = agent.UserId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = agent.UserId })
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>

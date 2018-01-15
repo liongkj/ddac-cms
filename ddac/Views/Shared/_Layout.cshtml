@@ -1,58 +1,70 @@
 ﻿@model ddac.Models.User
+    @{
+        if ((ddac.Models.User)Session["logged"] == null)
+        {
+            Session["logged"] = new ddac.Models.User
+            {
+                UserType = "guest"
+            };
+        }
+    }
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-</head>
-<body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark" style="padding-left:9%">
+            @Html.ActionLink("CMS", "Index", null, new { @class = "navbar-brand" })
+            <button class="navbar-toggler" aria-expanded="false" aria-controls="navbarColor02" aria-label="Toggle navigation" type="button" data-target="#navbarColor02" data-toggle="collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark" style="padding-left:9%" >
-        @Html.ActionLink("CMS", "Index", Model, new { @class = "navbar-brand" })
-        <button class="navbar-toggler" aria-expanded="false" aria-controls="navbarColor02" aria-label="Toggle navigation" type="button" data-target="#navbarColor02" data-toggle="collapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <div class="collapse navbar-collapse" id="navbarColor02" style="margin-left:20px">
+                <ul class="navbar-nav mr-auto">
+                    @if (((ddac.Models.User)Session["logged"]).UserType.Equals("admin"))
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("User Management", "User", "Admin", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Booking Management", "Index", "Bookings", null, new { @class = "nav-link" })
+                        </li>
+                    }
 
-        <div class="collapse navbar-collapse" id="navbarColor02" style="margin-left:20px">
-            <ul class="navbar-nav mr-auto">
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Admin Login", "Login", "Admin", null, new { @class = "nav-link" })
+                        </li>
+                    }
 
-                @if (TempData["logged"].Equals("guest"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Admin Login", "Login", "Admin", null, new { @class = "nav-link" })
-                    </li>
-                }
-                else if (TempData["logged"].Equals("admin"))
-                {
-                    <li class="nav-item">
-                        @Html.ActionLink("User Management", "User", "Admin", Model, new { @class = "nav-link" })
-                    </li>
-                }
 
-            </ul>
+                </ul>
 
+            </div>
+        </nav>
+
+
+        <div class="container body-content">
+            @RenderBody()
+
+            <footer style="bottom:0">
+                <hr />
+                <p>&copy; @DateTime.Now.Year - Cargo Management System</p>
+            </footer>
         </div>
-    </nav>
 
-
-    <div class="container body-content">
-        @RenderBody()
-        
-        <footer style="bottom:0">
-            <hr />
-            <p>&copy; @DateTime.Now.Year - Cargo Management System</p>
-        </footer>
-    </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
 </html>

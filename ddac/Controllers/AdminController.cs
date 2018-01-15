@@ -1,7 +1,9 @@
 ﻿using ddac.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -9,25 +11,27 @@ namespace ddac.Controllers
 {
     public class AdminController : Controller
     {
-
-
         private UserDBContext db = new UserDBContext();
 
         // GET: Admin
-        public ActionResult Index(User admin)
+        public ActionResult Index()
         {
-            TempData["logged"] = "guest";
-            var vm = admin;
-            return View(vm);
+            var vm = (User)Session["logged"];
+            if (vm != null)
+            {
+                ViewBag.Message = "Welcome back, " + vm.Username;
+            }
+            else RedirectToAction("Login", new { UserType = "guest" });
+            return View();
         }
-
+        [HttpGet]
         public ActionResult Login()
         {
-            TempData["logged"] = "guest";
             var vm = new User
             {
                 UserType = "guest"
             };
+            Session["logged"] = vm;
             return View(vm);
         }
 
@@ -42,10 +46,11 @@ namespace ddac.Controllers
                 UserType = "admin",
             };
 
+
             if (tempAdminVM.Username.Equals("admin"))
             {
-                TempData["logged"] = "admin";
-                return RedirectToAction("Index", "Admin", tempAdminVM);
+                Session.Add("logged", tempAdminVM);
+                return RedirectToAction("Index", "Admin");
             }
             else
             {
@@ -53,11 +58,18 @@ namespace ddac.Controllers
             }
         }
 
-        public new ActionResult User(User admin)
+        public new ActionResult User()
         {
-
-            var vm = new User();
+            var vm = (User)Session["logged"];
+            if (vm == null)
+            {
+                vm = new User
+                {
+                    UserType = "guest"
+                };
+            }
             return View(vm);
+
         }
 
         public PartialViewResult _AgentList()
@@ -71,18 +83,58 @@ namespace ddac.Controllers
             return PartialView();
         }
 
+        public void AddAgent(User user)
+        {
+            if (ModelState.IsValid)
+                {
+                    user.UserType = "agent";
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    //return RedirectToAction("User");
+            }
+           
+        }
+
+        public ActionResult _EditAgent(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            User user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        // POST: Users/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _AddAgent([Bind(Include = "ID,Username,Password,UserType,Name")] User user)
+        public ActionResult _EditAgent([Bind(Include = "Password,Name")] User user)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
+                db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
-
-                return RedirectToAction("User", new User { UserType ="admin"});
+                return RedirectToAction("User");
             }
             return View(user);
+        }
+
+        [HttpPost]
+        public JsonResult DoesUserNameExist(string UserName)
+        {
+            Boolean found = false;
+            foreach (User user in db.Users) {
+                if (user.Username.Equals(UserName)){
+                    found = true;
+                }
+            }
+            return Json(new { returnvValue = found });
         }
 
     }

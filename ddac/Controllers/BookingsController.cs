@@ -10,107 +10,109 @@ using ddac.Models;
 
 namespace ddac.Controllers
 {
-    public class UsersController : Controller
+    public class BookingsController : Controller
     {
         private UserDBContext db = new UserDBContext();
 
-        // GET: Users
+        // GET: Bookings
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            var vm = db.Bookings;
+
+            return View(vm);
         }
 
-        // GET: Users/Details/5
+        // GET: Bookings/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Booking booking = db.Bookings.Find(id);
+            if (booking == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(booking);
         }
 
-        // GET: Users/Create
+        // GET: Bookings/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Bookings/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserId,Username,Password,UserType,Name")] User user)
+        public ActionResult Create([Bind(Include = "BookingId,Departure,Arrival,ShipSize,Destination,Source")] Booking booking)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
+                db.Bookings.Add(booking);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(user);
+            return View(booking);
         }
 
-        // GET: Users/Edit/5
+        // GET: Bookings/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Booking booking = db.Bookings.Find(id);
+            if (booking == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(booking);
         }
 
-        // POST: Users/Edit/5
+        // POST: Bookings/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserId,Username,Password,UserType,Name")] User user)
+        public ActionResult Edit([Bind(Include = "BookingId,Departure,Arrival,ShipSize,Destination,Source")] Booking booking)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry(booking).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(user);
+            return View(booking);
         }
 
-        // GET: Users/Delete/5
+        // GET: Bookings/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Booking booking = db.Bookings.Find(id);
+            if (booking == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(booking);
         }
 
-        // POST: Users/Delete/5
+        // POST: Bookings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            Booking booking = db.Bookings.Find(id);
+            db.Bookings.Remove(booking);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
