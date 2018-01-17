@@ -15,7 +15,6 @@ namespace ddac.Controllers
             {
                 UserType = "guest"
             };
-            Session["logged"] = vm;
             return View(vm);
         }
 

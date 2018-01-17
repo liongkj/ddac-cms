@@ -222,6 +222,7 @@
     <Content Include="Views\Bookings\Delete.cshtml" />
     <Content Include="Views\Bookings\Details.cshtml" />
     <Content Include="Views\Bookings\Edit.cshtml" />
+    <Content Include="Views\Bookings\_BookingList.cshtml" />
     <Content Include="Views\Bookings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

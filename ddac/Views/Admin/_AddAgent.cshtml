@@ -61,17 +61,21 @@
         var Password = $('#Password').val();
         var retypepassword = $('#retypepassword').val();
         var Name = $('#Name').val();
-        var found = $.ajax({
-            type: "POST",
+        var found = false;
+        debugger;
+        $.ajax({
+            type: "GET",
             url: "/Admin/DoesUserNameExist",
+            async: false,
             data: {
                 Username: Username,
             },
-            success: function (result) {
-                found = result.found;
+            success: function (data) {
+                found = data;
             },
 
         });
+
         if (Password != "" && Username != "" && Name != "") {
             
             if (!found) {

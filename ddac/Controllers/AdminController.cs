@@ -16,13 +16,15 @@ namespace ddac.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            var vm = (User)Session["logged"];
-            if (vm != null)
+            var vm = new User();
+            if (Session["logged"] != null)
             {
+                vm = (User)(Session["logged"]);
                 ViewBag.Message = "Welcome back, " + vm.Username;
             }
-            else RedirectToAction("Login", new { UserType = "guest" });
-            return View();
+            else
+                return RedirectToAction("Login","Admin");
+            return View(vm);
         }
         [HttpGet]
         public ActionResult Login()
@@ -31,31 +33,29 @@ namespace ddac.Controllers
             {
                 UserType = "guest"
             };
-            Session["logged"] = vm;
+
             return View(vm);
         }
 
         [HttpPost]
         public ActionResult Login(User admin)
         {
-
-            User tempAdminVM = new User
+            ModelState.Remove("Name");
+            if (ModelState.IsValid)
             {
-                Username = admin.Username,
-                Password = admin.Password,
-                UserType = "admin",
-            };
-
-
-            if (tempAdminVM.Username.Equals("admin"))
-            {
-                Session.Add("logged", tempAdminVM);
-                return RedirectToAction("Index", "Admin");
+                User tempAdminVM = new User
+                {
+                    Username = admin.Username,
+                    Password = admin.Password,
+                    UserType = "admin",
+                };
+                if (tempAdminVM.Username.Equals("admin"))
+                {
+                    Session.Add("logged", tempAdminVM);
+                    return RedirectToAction("Index", "Admin");
+                }
             }
-            else
-            {
-                return RedirectToAction("Login", "Admin");
-            }
+            return RedirectToAction("Login", "Admin");
         }
 
         public new ActionResult User()
@@ -86,13 +86,13 @@ namespace ddac.Controllers
         public void AddAgent(User user)
         {
             if (ModelState.IsValid)
-                {
-                    user.UserType = "agent";
-                    db.Users.Add(user);
-                    db.SaveChanges();
-                    //return RedirectToAction("User");
+            {
+                user.UserType = "agent";
+                db.Users.Add(user);
+                db.SaveChanges();
+                //return RedirectToAction("User");
             }
-           
+
         }
 
         public ActionResult _EditAgent(int? id)
@@ -125,16 +125,20 @@ namespace ddac.Controllers
             return View(user);
         }
 
-        [HttpPost]
+
         public JsonResult DoesUserNameExist(string UserName)
         {
             Boolean found = false;
-            foreach (User user in db.Users) {
-                if (user.Username.Equals(UserName)){
+            foreach (User user in db.Users)
+            {
+                if (user.Username.Equals(UserName))
+                {
                     found = true;
+                    break;
                 }
             }
-            return Json(new { returnvValue = found });
+            //return Json(new { data = found }, JsonRequestBehavior.AllowGet);
+            return new JsonResult { Data = found, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
     }

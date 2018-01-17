@@ -17,9 +17,21 @@ namespace ddac.Controllers
         // GET: Bookings
         public ActionResult Index()
         {
-            var vm = db.Bookings;
-
+            var vm = new User();
+            if (Session["logged"] != null)
+            {
+                vm = (User)(Session["logged"]);
+                ViewBag.Message = "Welcome back, " + vm.Username;
+            }
+            else
+                return RedirectToAction("Login", "Admin");
+            
             return View(vm);
+        }
+
+        public PartialViewResult _BookingList()
+        {
+            return PartialView(db.Bookings);
         }
 
         // GET: Bookings/Details/5
