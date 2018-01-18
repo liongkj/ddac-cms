@@ -23,7 +23,7 @@ namespace ddac.Controllers
                 ViewBag.Message = "Welcome back, " + vm.Username;
             }
             else
-                return RedirectToAction("Login","Admin");
+                return RedirectToAction("Login", "Admin");
             return View(vm);
         }
         [HttpGet]
@@ -38,24 +38,50 @@ namespace ddac.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(User admin)
+        public ActionResult Login(User user)
         {
+            User tempAdminVM = new User
+            {
+                Username = user.Username,
+                Password = user.Password,
+                UserType = "guest"
+        };
+
             ModelState.Remove("Name");
             if (ModelState.IsValid)
             {
-                User tempAdminVM = new User
-                {
-                    Username = admin.Username,
-                    Password = admin.Password,
-                    UserType = "admin",
-                };
+                
                 if (tempAdminVM.Username.Equals("admin"))
                 {
+                    tempAdminVM.UserType = "admin";
                     Session.Add("logged", tempAdminVM);
                     return RedirectToAction("Index", "Admin");
                 }
+                else if (Login(user.Username, user.Password))
+                {
+                    return RedirectToAction("Index", "Users");
+                }
+                else {
+                    ModelState.AddModelError("", "Incorrect username or password");
+                }
             }
-            return RedirectToAction("Login", "Admin");
+            return View(tempAdminVM);
+        }
+
+        public Boolean Login(string username, string password)
+        {
+            foreach (User user in db.Users)
+            {
+                if (username.Equals(user.Username))
+                {
+                    if (password == user.Password)
+                    {
+                        Session["logged"] = user;
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public ActionResult Logout()

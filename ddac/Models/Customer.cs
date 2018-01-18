@@ -9,12 +9,11 @@ using System.Web.Mvc;
 
 namespace ddac.Models
 {
-    public class User
+    public class Customer
     {
-        //[Key]
+        [Key]
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
-
+        public int CusId { get; set; }
         //[Remote("DoesUserNameExist", "Account", HttpMethod = "POST", ErrorMessage = "User name already exists. Please enter a different user name.")]
         [Index(IsUnique = true)]
         [Required(ErrorMessage = "Please write your Username")]
@@ -24,23 +23,8 @@ namespace ddac.Models
         public string UserType { get ; set; }
         [Required(ErrorMessage = "Please write your Name")]
         public string Name { get; set ; }
-        
+        public User Agent { get; set; }
+
     }
-
-    public class UserDBContext : DbContext {
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
-        public System.Data.Entity.DbSet<ddac.Models.User> Users { get; set; }
-
-        public System.Data.Entity.DbSet<ddac.Models.Ship> Ships { get; set; }
-
-        public System.Data.Entity.DbSet<ddac.Models.Booking> Bookings { get; set; }
-
-        public System.Data.Entity.DbSet<ddac.Models.Customer> Customers { get; set; }
-    }
-
-   
 
 }
