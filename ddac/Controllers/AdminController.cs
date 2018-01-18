@@ -58,6 +58,12 @@ namespace ddac.Controllers
             return RedirectToAction("Login", "Admin");
         }
 
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            return RedirectToAction("Index", "Home");
+        }
+
         public new ActionResult User()
         {
             var vm = (User)Session["logged"];

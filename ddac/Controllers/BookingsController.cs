@@ -50,26 +50,20 @@ namespace ddac.Controllers
         }
 
         // GET: Bookings/Create
-        public ActionResult Create()
+        public PartialViewResult _Create()
         {
-            return View();
+            return PartialView();
         }
 
-        // POST: Bookings/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BookingId,Departure,Arrival,ShipSize,Destination,Source")] Booking booking)
+        public void Create(Booking booking)
         {
             if (ModelState.IsValid)
             {
+
                 db.Bookings.Add(booking);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
-            return View(booking);
+            
         }
 
         // GET: Bookings/Edit/5

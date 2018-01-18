@@ -5,15 +5,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ID, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
+ 
         <div class="form-group">
             @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -49,7 +41,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="AddNewAgent()">Send message</button>
+                <button type="button" class="btn btn-primary" onclick="AddNewAgent()">Add</button>
             </div>
         </div>
     </div>
@@ -62,7 +54,6 @@
         var retypepassword = $('#retypepassword').val();
         var Name = $('#Name').val();
         var found = false;
-        debugger;
         $.ajax({
             type: "GET",
             url: "/Admin/DoesUserNameExist",

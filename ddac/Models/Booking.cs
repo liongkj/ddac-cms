@@ -9,13 +9,20 @@ namespace ddac.Models
 {
     public class Booking
     {
-        [Required(ErrorMessage = "Please write your Username")]
+        
         public int BookingId { get; set; }
-        public DateTime Departure { get; set; }
+        [DataType(DataType.DateTime)]
+        [Required(ErrorMessage = "Please select a valid departure date")]
+        public DateTime? Departure { get; set; }
+        [DataType(DataType.DateTime)]
+        [Required(ErrorMessage = "Please select a valid arrival date")]
         public DateTime Arrival { get; set; }
-        public string ShipSize { get; set; }
-        public string Destination { get; set; }
-        public string Source { get; set; }
+        [Required(ErrorMessage = "Please select a ship size")]
+        public ShipSize? ShipSize { get; set; }
+        [Required(ErrorMessage = "Please select a valid destination")]
+        public Destination? Destination { get; set; }
+        [Required(ErrorMessage = "Please select a valid source")]
+        public Source? Source { get; set; }
         [Timestamp]
         public Byte[] TimeStamp { get; set; }
 
@@ -23,15 +30,15 @@ namespace ddac.Models
 
     public enum ShipSize
     {
-        [Description("XS - 2000")]
+        [Display(Name = "XS - 2000DWT")]
         XS2000,
-        [Description("S - 3000")]
+        [Display(Name = "S - 3000DWT")]
         S3000,
-        [Description("M - 5000")]
+        [Display(Name = "M - 5000DWT")]
         M5000,
-        [Description("L - 10000")]
+        [Display(Name = "L - 10000DWT")]
         L10000,
-        [Description("XL - 14000")]
+        [Display(Name = "XL - 14000DWT")]
         XL14000
 
     }

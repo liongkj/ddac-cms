@@ -4,15 +4,11 @@
     ViewBag.Title = "Index";
 }
 
-<button class="btn btn-danger" type="button" style="margin:10px"
-        on>
-    Add Schedule
-</button>
-<div style = "margin-top:10px">
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-danger" })
-</div>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model=> model.BookingId)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Departure)
         </th>
@@ -34,6 +30,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @("BO" + item.BookingId.ToString("D4"))
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Departure)
         </td>
         <td>
@@ -49,9 +48,9 @@
             @Html.DisplayFor(modelItem => item.Source)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BookingId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BookingId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.BookingId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.BookingId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.BookingId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.BookingId })
         </td>
     </tr>
 }
