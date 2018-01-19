@@ -59,7 +59,7 @@ namespace ddac.Controllers
                 }
                 else if (Login(user.Username, user.Password))
                 {
-                    return RedirectToAction("Index", "Users");
+                    return RedirectToAction("Index", "Agent");
                 }
                 else {
                     ModelState.AddModelError("", "Incorrect username or password");

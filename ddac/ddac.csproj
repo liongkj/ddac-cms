@@ -149,7 +149,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BookingsController.cs" />
-    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -178,6 +178,10 @@
     <Compile Include="Migrations\201801181102337_update3.cs" />
     <Compile Include="Migrations\201801181102337_update3.Designer.cs">
       <DependentUpon>201801181102337_update3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801190441352_update4.cs" />
+    <Compile Include="Migrations\201801190441352_update4.Designer.cs">
+      <DependentUpon>201801190441352_update4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Booking.cs" />
@@ -329,11 +333,14 @@
     <Content Include="Views\Bookings\_BookingList.cshtml" />
     <Content Include="Views\Bookings\Index.cshtml" />
     <Content Include="Scripts\popper.min.js" />
-    <Content Include="Views\Customers\Create.cshtml" />
-    <Content Include="Views\Customers\Delete.cshtml" />
-    <Content Include="Views\Customers\Details.cshtml" />
-    <Content Include="Views\Customers\Edit.cshtml" />
-    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Agent\_AddCustomer.cshtml" />
+    <Content Include="Views\Agent\Delete.cshtml" />
+    <Content Include="Views\Agent\Details.cshtml" />
+    <Content Include="Views\Agent\Edit.cshtml" />
+    <Content Include="Views\Agent\_CustomerList.cshtml" />
+    <Content Include="Views\Agent\Index.cshtml" />
+    <Content Include="Views\Agent\Customer.cshtml" />
+    <Content Include="Views\Agent\AddCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -370,6 +377,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801181102337_update3.resx">
       <DependentUpon>201801181102337_update3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801190441352_update4.resx">
+      <DependentUpon>201801190441352_update4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

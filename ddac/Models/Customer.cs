@@ -14,16 +14,19 @@ namespace ddac.Models
         [Key]
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CusId { get; set; }
-        //[Remote("DoesUserNameExist", "Account", HttpMethod = "POST", ErrorMessage = "User name already exists. Please enter a different user name.")]
-        [Index(IsUnique = true)]
-        [Required(ErrorMessage = "Please write your Username")]
-        public string Username { get; set; }
-        [Required(ErrorMessage = "Please write your Password")]
-        public string Password { get ; set; }
-        public string UserType { get ; set; }
         [Required(ErrorMessage = "Please write your Name")]
         public string Name { get; set ; }
         public User Agent { get; set; }
+        
+        [ComplexType]
+        public class Address
+        {
+            public string Addressline1 { get; set; }
+            public string City { get; set; }
+            public string Street { get; set; }
+            public string StateOrProvince { get; set; }
+            public string Country { get; set; }
+        }
 
     }
 

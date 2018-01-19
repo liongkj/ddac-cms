@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Cutomer";
+}
+
+<h2>Cutomer</h2>
+
+<button class="btn btn-danger" type="button" style="margin:10px"
+        data-toggle="modal" data-target="#addModal">
+    Add Customer
+</button>
+
+@{
+    Html.RenderAction("_CustomerList");
+}
+
+<div class="modal" role="dialog" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add new Customer</h4>
+
+            </div>
+            <div class="modal-body">
+                <p>
+                    @{
+                        Html.RenderAction("_AddCustomer");
+                    }
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
