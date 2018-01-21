@@ -1,52 +1,68 @@
 ﻿@model ddac.Models.Customer
 
-@{
-    ViewBag.Title = "Create";
-}
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-     
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-            </div>
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserType, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserType, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <hr />
+    <h4><strong>Shipping Address</strong></h4>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ShippingAddress.Addressline1, htmlAttributes: new { @class = "form-control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ShippingAddress.Addressline1, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ShippingAddress.Addressline1, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ShippingAddress.City, htmlAttributes: new { @class = "form-control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ShippingAddress.City, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ShippingAddress.City, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+    <div class='container-fluid'>
+        <div class=' row'>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ShippingAddress.StateOrProvince, htmlAttributes: new { @class = "col-md-2 form-control-label" })
+                <div class='col-md-4'>
+                    @Html.EditorFor(m => m.ShippingAddress.StateOrProvince, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ShippingAddress.StateOrProvince, "", new { @class = "text-danger" })
+                </div>
+                @*</div>*@
+
+                @*<div class="form-group">*@
+                @Html.LabelFor(model => model.ShippingAddress.Postcode, htmlAttributes: new { @class = "form-control-label col-md-2" })
+                <div class='col-md-4'>
+                    @Html.EditorFor(m => m.ShippingAddress.Postcode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ShippingAddress.Postcode, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ShippingAddress.Country, htmlAttributes: new { @class = "form-control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EnumDropDownListFor(model => model.ShippingAddress.Country, "Select country", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ShippingAddress.Country, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-8 ">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </div>
+</div>
 }

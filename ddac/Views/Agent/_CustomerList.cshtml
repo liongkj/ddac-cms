@@ -7,40 +7,37 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Username)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserType)
+            @Html.DisplayNameFor(model => model.CusId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingAddress)
+        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Username)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Password)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserType)
+            @("CU" + item.CusId.ToString("D4"))
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CusId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CusId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CusId })
+            @(item.ShippingAddress.Addressline1 + "," + item.ShippingAddress.City + ",") <br />
+            @( item.ShippingAddress.Postcode + "," + item.ShippingAddress.StateOrProvince + ","
+            + item.ShippingAddress.Country)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.CusId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.CusId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.CusId })
         </td>
     </tr>
-}
+    }
 
 </table>

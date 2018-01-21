@@ -92,13 +92,14 @@ namespace ddac.Controllers
 
         public new ActionResult User()
         {
-            var vm = (User)Session["logged"];
-            if (vm == null)
+            var vm = new User();
+            if (Session["logged"] == null)
             {
-                vm = new User
-                {
-                    UserType = "guest"
-                };
+                return RedirectToAction("Login", "Admin");
+            }
+            else {
+               
+                vm = (User)(Session["logged"]);
             }
             return View(vm);
 

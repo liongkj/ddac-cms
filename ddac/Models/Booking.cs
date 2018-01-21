@@ -30,16 +30,12 @@ namespace ddac.Models
 
     public enum ShipSize
     {
-        [Display(Name = "XS - 2000DWT")]
+        [Display(Name = "L - 28000KG")]
         XS2000,
-        [Display(Name = "S - 3000DWT")]
+        [Display(Name = "M - 24000KG")]
         S3000,
-        [Display(Name = "M - 5000DWT")]
-        M5000,
-        [Display(Name = "L - 10000DWT")]
-        L10000,
-        [Display(Name = "XL - 14000DWT")]
-        XL14000
+        [Display(Name = "S - 10000KG")]
+        M5000
 
     }
 

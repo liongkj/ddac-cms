@@ -7,7 +7,7 @@
     <div class="form-horizontal">
  
         <div class="form-group">
-            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "form-control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
@@ -16,7 +16,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "form-control-label col-md-2" })
             <div class="col-md-10">
                 @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
@@ -24,14 +24,14 @@
         </div>
 
         <div class="form-group ">
-            <label class="control-label col-md-2">Retype Password :</label>
+            <label class="form-form-control-label col-md-2">Retype Password :</label>
             <div class="col-md-10">
                 <input class="form-control" type="password" value="" id="retypepassword" />
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-form-control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
