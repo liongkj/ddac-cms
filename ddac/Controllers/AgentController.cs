@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ddac.Models;
+using ddac.ViewModels;
 using static ddac.Models.Customer;
 
 namespace ddac.Controllers
@@ -15,6 +17,7 @@ namespace ddac.Controllers
     public class AgentController : Controller
     {
         private UserDBContext db = new UserDBContext();
+       
 
         // GET: Customers
         public ActionResult Index()
@@ -37,6 +40,7 @@ namespace ddac.Controllers
             {
                 vm = (User)(Session["logged"]);
                 ViewBag.Message = "Welcome back, " + vm.Username;
+
             }
             else
                 return RedirectToAction("Login", "Admin");
@@ -50,20 +54,21 @@ namespace ddac.Controllers
             var agent = (User)(Session["logged"]);
             IQueryable<Customer> model = db.Customers
                 .Where(c => c.Agent.UserId == agent.UserId)
-                .Include(c => c.Agent)
-                ;
+                .Include(c => c.Agent);
+
             return PartialView(model);
 
         }
 
         public PartialViewResult _AddCustomer()
         {
-
             return PartialView();
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult _AddCustomer(Customer customer1)
+        public ActionResult _AddCustomer(Customer customer1)
         {
             try
             {
@@ -75,7 +80,7 @@ namespace ddac.Controllers
                     db.Customers.Add(customer1);
 
                     db.SaveChanges();
-
+                    return RedirectToAction("Customer");
                 }
             }
             catch (DbEntityValidationException dbEx)
@@ -89,8 +94,8 @@ namespace ddac.Controllers
                 }
 
             }
-
-            return PartialView();
+            
+            return View();
         }
 
 
@@ -144,23 +149,34 @@ namespace ddac.Controllers
             {
                 return HttpNotFound();
             }
-            return View(customer);
+
+            var viewmodel = new AgentViewModel
+            {
+                Agent = (User)Session["logged"],
+                Customers = customer
+            };
+
+
+            return View(viewmodel);
         }
 
         // POST: Customers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CusId,Username,Password,UserType,Name")] Customer customer)
+        public ActionResult _EditCustomer([Bind(Include = "Name,ShippingAddress")]int? id)
         {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                db.Entry(customer).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View(customer);
+
+            var customer = db.Customers.Find(id);
+           
+                    db.SaveChanges();
+                    return RedirectToAction("Customer");
+          
         }
 
         // GET: Customers/Delete/5
@@ -186,7 +202,7 @@ namespace ddac.Controllers
             Customer customer = db.Customers.Find(id);
             db.Customers.Remove(customer);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Customer");
         }
 
         protected override void Dispose(bool disposing)
@@ -197,5 +213,8 @@ namespace ddac.Controllers
             }
             base.Dispose(disposing);
         }
+
+       
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Bookings";
+    Layout = "/Views/Shared/_Layout-Admin.cshtml";
 }
 
 <button class="btn btn-danger" type="button" style="margin:10px"
@@ -8,11 +9,11 @@
     Add Schedule
 </button>
 
-@{
+@{  
     Html.RenderAction("_BookingList");
 }
 
-<div class="modal fade" role="dialog"  id="addModal">
+<div class="modal fade" role="dialog" id="addModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

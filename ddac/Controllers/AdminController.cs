@@ -1,4 +1,5 @@
 ﻿using ddac.Models;
+using ddac.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,15 +18,21 @@ namespace ddac.Controllers
         public ActionResult Index()
         {
             var vm = new User();
+            var viewmodel = new AgentViewModel();
             if (Session["logged"] != null)
             {
                 vm = (User)(Session["logged"]);
                 ViewBag.Message = "Welcome back, " + vm.Username;
+                vm.UserType = "admin";
+                viewmodel.Agent = vm;
+
             }
             else
                 return RedirectToAction("Login", "Admin");
-            return View(vm);
+            return View(viewmodel);
         }
+
+
         [HttpGet]
         public ActionResult Login()
         {
@@ -33,13 +40,14 @@ namespace ddac.Controllers
             {
                 UserType = "guest"
             };
-
+            
             return View(vm);
         }
 
         [HttpPost]
         public ActionResult Login(User user)
         {
+            var viewmodel = new AgentViewModel();
             User tempAdminVM = new User
             {
                 Username = user.Username,
@@ -55,17 +63,20 @@ namespace ddac.Controllers
                 {
                     tempAdminVM.UserType = "admin";
                     Session.Add("logged", tempAdminVM);
+                    
+                                  
                     return RedirectToAction("Index", "Admin");
                 }
                 else if (Login(user.Username, user.Password))
                 {
+                    viewmodel.Agent = (User)Session["logged"];
                     return RedirectToAction("Index", "Agent");
                 }
                 else {
                     ModelState.AddModelError("", "Incorrect username or password");
                 }
             }
-            return View(tempAdminVM);
+            return View(new AgentViewModel { Agent = tempAdminVM});
         }
 
         public Boolean Login(string username, string password)
@@ -93,6 +104,8 @@ namespace ddac.Controllers
         public new ActionResult User()
         {
             var vm = new User();
+
+            var viewmodel = new AgentViewModel();
             if (Session["logged"] == null)
             {
                 return RedirectToAction("Login", "Admin");
@@ -100,8 +113,12 @@ namespace ddac.Controllers
             else {
                
                 vm = (User)(Session["logged"]);
+
+
+                viewmodel.Agent = vm;
+                
             }
-            return View(vm);
+            return View(viewmodel);
 
         }
 

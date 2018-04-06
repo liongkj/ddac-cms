@@ -12,6 +12,6 @@ namespace ddac.Models
         [ForeignKey("Booking")]
         public Booking BookingId { get; set; }
         public virtual Booking Booking { get; set; }
-        public ICollection<Parcel> Parcels { get; set; }
+        public ICollection<Item> Items { get; set; }
     }
 }

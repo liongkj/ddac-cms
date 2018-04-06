@@ -1,4 +1,5 @@
 ﻿using ddac.Models;
+using ddac.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,12 @@ namespace ddac.Controllers
             {
                 UserType = "guest"
             };
-            return View(vm);
+
+            var viewmodel = new AgentViewModel
+            {
+                Agent = vm
+            };
+            return View(viewmodel);
         }
 
         public ActionResult About()

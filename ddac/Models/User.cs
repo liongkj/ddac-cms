@@ -39,6 +39,8 @@ namespace ddac.Models
         public System.Data.Entity.DbSet<ddac.Models.Booking> Bookings { get; set; }
 
         public System.Data.Entity.DbSet<ddac.Models.Customer> Customers { get; set; }
+
+        public System.Data.Entity.DbSet<ddac.Models.Item> Items { get; set; }
     }
 
    
