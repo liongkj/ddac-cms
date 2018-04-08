@@ -17,7 +17,7 @@ namespace ddac.Controllers
     public class AgentController : Controller
     {
         private UserDBContext db = new UserDBContext();
-       
+
 
         // GET: Customers
         public ActionResult Index()
@@ -80,7 +80,7 @@ namespace ddac.Controllers
                     db.Customers.Add(customer1);
 
                     db.SaveChanges();
-                    return RedirectToAction("Customer");
+                    return RedirectToAction("Customer", "Agent");
                 }
             }
             catch (DbEntityValidationException dbEx)
@@ -94,7 +94,7 @@ namespace ddac.Controllers
                 }
 
             }
-            
+
             return View();
         }
 
@@ -131,7 +131,7 @@ namespace ddac.Controllers
             {
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Customer", "Agent");
             }
 
             return View(customer);
@@ -150,14 +150,9 @@ namespace ddac.Controllers
                 return HttpNotFound();
             }
 
-            var viewmodel = new AgentViewModel
-            {
-                Agent = (User)Session["logged"],
-                Customers = customer
-            };
 
 
-            return View(viewmodel);
+            return View(customer);
         }
 
         // POST: Customers/Edit/5
@@ -165,34 +160,39 @@ namespace ddac.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult _EditCustomer([Bind(Include = "Name,ShippingAddress")]int? id)
+        public ActionResult EditCus([Bind(Include = "Name,ShippingAddress")]int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            var customer = db.Customers.Find(id);
-           
+            var updatedCus = db.Customers.Find(id);
+            if (ModelState.IsValid)
+            {
+                if (TryUpdateModel(updatedCus, "", new string[] { "Name", "ShippingAddress" }))
+                {
                     db.SaveChanges();
                     return RedirectToAction("Customer");
-          
+                }
+                
+            }
+            return View(updatedCus);
         }
 
-        // GET: Customers/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
+            // GET: Customers/Delete/5
+            public ActionResult Delete(int? id)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Customer customer = db.Customers.Find(id);
+                if (customer == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(customer);
             }
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(customer);
-        }
 
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -201,6 +201,15 @@ namespace ddac.Controllers
         {
             Customer customer = db.Customers.Find(id);
             db.Customers.Remove(customer);
+            IQueryable<Item> items = db.Items
+               .Where(c => c.Customer.CusId == id)
+               .Include(c => c.Customer);
+
+            foreach (Item i in items)
+            {
+                db.Items.Remove(i);
+            }
+
             db.SaveChanges();
             return RedirectToAction("Customer");
         }
@@ -214,7 +223,6 @@ namespace ddac.Controllers
             base.Dispose(disposing);
         }
 
-       
 
     }
 }

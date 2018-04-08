@@ -1,15 +1,12 @@
 ﻿@model IEnumerable<ddac.Models.Item>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Items";
     Layout = "~/Views/Shared/_Layout-Agent.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Items</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -24,6 +21,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Weight)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
         <th></th>
     </tr>
 
@@ -31,17 +31,20 @@
     <tr>
         <td>
             @("IT" + item.ItemId.ToString("D4"))
-           
+
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ItemName)
         </td>
         <td>
             @("CU" + item.Customer.CusId.ToString("D4"))
-            
+
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Weight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.ItemId }) |

@@ -1,12 +1,13 @@
-﻿@model  ddac.ViewModels.AgentViewModel
+﻿@model  ddac.Models.Customer
 
 @{
     ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout-Agent.cshtml";
 }
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm("Edit","Agent"))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
@@ -14,21 +15,21 @@
     <h4>Customer</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Customers.CusId)
+    @Html.HiddenFor(model => model.CusId)
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Customers.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Customers.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Customers.Name, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Customers.ShippingAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ShippingAddress, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Customers.ShippingAddress, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Customers.ShippingAddress, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.ShippingAddress, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ShippingAddress, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -42,5 +43,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Customer","Agent")
 </div>

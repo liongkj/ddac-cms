@@ -7,131 +7,110 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ddac.Models;
-using ddac.ViewModels;
 
 namespace ddac.Controllers
 {
-    public class BookingsController : Controller
+    public class ShipsController : Controller
     {
         private UserDBContext db = new UserDBContext();
 
-        // GET: Bookings
+        // GET: Ships
         public ActionResult Index()
         {
-            return View(db.Bookings.ToList());
+            return View(db.Ships.ToList());
         }
 
-        public PartialViewResult _ScheduleList() {
-
-            
-            IEnumerable<ScheduleViewModel> model = null;
-            model = (from sche in db.Schedules
-                                 join ship in db.Ships
-                                 on sche.ShipId equals ship.ShipId
-                                 select new ScheduleViewModel {
-                                     Schedule = sche,
-                                     Ship = ship
-                                 }
-                                 );
-
-            return PartialView(model);
-
-            }
-
-
-        
-
-        // GET: Bookings/Details/5
-        public ActionResult Details(int? id)
+        // GET: Ships/Details/5
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.Bookings.Find(id);
-            if (booking == null)
+            Ship ship = db.Ships.Find(id);
+            if (ship == null)
             {
                 return HttpNotFound();
             }
-            return View(booking);
+            return View(ship);
         }
 
-        // GET: Bookings/Create
+        // GET: Ships/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Bookings/Create
+        // POST: Ships/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BookingId,Status")] Booking booking)
+        public ActionResult Create(Ship ship)
         {
             if (ModelState.IsValid)
             {
-                db.Bookings.Add(booking);
+                db.Ships.Add(ship);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(booking);
+            return View(ship);
         }
 
-        // GET: Bookings/Edit/5
-        public ActionResult Edit(int? id)
+        // GET: Ships/Edit/5
+        public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.Bookings.Find(id);
-            if (booking == null)
+            Ship ship = db.Ships.Find(id);
+            if (ship == null)
             {
                 return HttpNotFound();
             }
-            return View(booking);
+            return View(ship);
         }
 
-        // POST: Bookings/Edit/5
+        // POST: Ships/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BookingId,Status")] Booking booking)
+        public ActionResult Edit([Bind(Include = "ShipName,IMO")] Ship ship)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(booking).State = EntityState.Modified;
+                db.Entry(ship).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(booking);
+            return View(ship);
         }
 
-        // GET: Bookings/Delete/5
-        public ActionResult Delete(int? id)
+        // GET: Ships/Delete/5
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.Bookings.Find(id);
-            if (booking == null)
+            Ship ship = db.Ships.Find(id);
+            if (ship == null)
             {
                 return HttpNotFound();
             }
-            return View(booking);
+            return View(ship);
         }
 
-        // POST: Bookings/Delete/5
+        // POST: Ships/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string id)
         {
-            Booking booking = db.Bookings.Find(id);
-            db.Bookings.Remove(booking);
+            Ship ship = db.Ships.Find(id);
+            db.Ships.Remove(ship);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

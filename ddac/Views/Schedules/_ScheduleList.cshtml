@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ddac.Models.Schedule>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ScheduleId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Departure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Arrival)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Source)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destination)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @("BO" + item.ScheduleId.ToString("D4"))
+        </td>
+        <td>
+            @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Departure))
+        </td>
+        <td>
+            @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.Arrival))
+            
+        </td>
+        <td>
+            @("SP" + item.ShipId.ToString("D4"))
+            
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Source)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Destination)
+        </td>
+
+        <td>
+            
+            @Html.ActionLink("Details", "Details", new { id = item.ScheduleId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ScheduleId })
+        </td>
+    </tr>
+}
+
+</table>

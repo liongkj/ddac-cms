@@ -1,0 +1,35 @@
+﻿@model ddac.Models.Ship
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ship</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IMO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IMO)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

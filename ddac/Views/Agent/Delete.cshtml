@@ -4,11 +4,11 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>Delete Customer</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to delete this Customer?</h3>
 <div>
-    <h4>Customer</h4>
+    <h4>Customer: @("CU" + Model.CusId.ToString("D4")) - @Model.Name</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -24,7 +24,9 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ShippingAddress)
+            @(@Model.ShippingAddress.Addressline1 + "," + @Model.ShippingAddress.City + ",") <br />
+            @( @Model.ShippingAddress.Postcode + "," + @Model.ShippingAddress.StateOrProvince + ","
+                    + @Model.ShippingAddress.Country)
         </dd>
 
        

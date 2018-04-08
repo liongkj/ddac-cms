@@ -16,7 +16,7 @@ namespace ddac.Models
         public int UserId { get; set; }
 
         //[Remote("DoesUserNameExist", "Account", HttpMethod = "POST", ErrorMessage = "User name already exists. Please enter a different user name.")]
-        [Index(IsUnique = true)]
+        
         [Required(ErrorMessage = "Please write your Username")]
         public string Username { get; set; }
         [Required(ErrorMessage = "Please write your Password")]
@@ -36,11 +36,13 @@ namespace ddac.Models
 
         public System.Data.Entity.DbSet<ddac.Models.Ship> Ships { get; set; }
 
-        public System.Data.Entity.DbSet<ddac.Models.Booking> Bookings { get; set; }
+        public System.Data.Entity.DbSet<ddac.Models.Schedule> Schedules { get; set; }
 
         public System.Data.Entity.DbSet<ddac.Models.Customer> Customers { get; set; }
 
         public System.Data.Entity.DbSet<ddac.Models.Item> Items { get; set; }
+
+        public System.Data.Entity.DbSet<ddac.Models.Booking> Bookings { get; set; }
     }
 
    

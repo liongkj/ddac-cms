@@ -7,39 +7,32 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ddac.Models;
-using ddac.ViewModels;
 
 namespace ddac.Controllers
 {
-    public class BookingsController : Controller
+    public class SchedulesController : Controller
     {
         private UserDBContext db = new UserDBContext();
 
         // GET: Bookings
         public ActionResult Index()
         {
-            return View(db.Bookings.ToList());
+            var vm = new User();
+            if (Session["logged"] != null)
+            {
+                vm = (User)(Session["logged"]);
+                ViewBag.Message = "Welcome back, " + vm.Username;
+            }
+            else
+                return RedirectToAction("Login", "Admin");
+            
+            return View(vm);
         }
 
-        public PartialViewResult _ScheduleList() {
-
-            
-            IEnumerable<ScheduleViewModel> model = null;
-            model = (from sche in db.Schedules
-                                 join ship in db.Ships
-                                 on sche.ShipId equals ship.ShipId
-                                 select new ScheduleViewModel {
-                                     Schedule = sche,
-                                     Ship = ship
-                                 }
-                                 );
-
-            return PartialView(model);
-
-            }
-
-
-        
+        public PartialViewResult _ScheduleList()
+        {
+            return PartialView(db.Schedules.ToList());
+        }
 
         // GET: Bookings/Details/5
         public ActionResult Details(int? id)
@@ -48,7 +41,7 @@ namespace ddac.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.Bookings.Find(id);
+            Schedule booking = db.Schedules.Find(id);
             if (booking == null)
             {
                 return HttpNotFound();
@@ -57,26 +50,34 @@ namespace ddac.Controllers
         }
 
         // GET: Bookings/Create
-        public ActionResult Create()
-        {
-            return View();
+        public PartialViewResult _Create()
+        { 
+            var shiplist = db.Ships
+                .AsEnumerable()
+                .Select(s => new {
+                    s.ShipId,
+                    ShipName = string.Format("{0} -- Ship Size {1} KG", s.ShipName, s.IMO)
+                })
+                .ToList();
+            //ViewBag.shipdropdown = new SelectList(shiplist, "ShipId", "ShipName");
+            ViewBag.shipdropdown = shiplist;
+            return PartialView();
         }
 
-        // POST: Bookings/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BookingId,Status")] Booking booking)
+        public ActionResult Create(Schedule schedule)
         {
+
             if (ModelState.IsValid)
             {
-                db.Bookings.Add(booking);
+                db.Schedules.Add(schedule);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
+            return Redirect("Index");
 
-            return View(booking);
+
         }
 
         // GET: Bookings/Edit/5
@@ -86,7 +87,16 @@ namespace ddac.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.Bookings.Find(id);
+            Schedule booking = db.Schedules.Find(id);
+            var shiplist = db.Ships
+                 .AsEnumerable()
+                 .Select(s => new {
+                     s.ShipId,
+                     ShipName = string.Format("{0} -- Ship Size {1} KG", s.ShipName, s.IMO)
+                 })
+                 .ToList();
+            //ViewBag.shipdropdown = new SelectList(shiplist, "ShipId", "ShipName");
+            ViewBag.shipdropdown = shiplist;
             if (booking == null)
             {
                 return HttpNotFound();
@@ -99,11 +109,24 @@ namespace ddac.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BookingId,Status")] Booking booking)
+        public ActionResult Edit([Bind(Include = "Departure,Arrival,ShipId,Destination,Source")] Schedule booking)
         {
+
+            var shiplist = db.Ships
+                .AsEnumerable()
+                .Select(s => new {
+                    s.ShipId,
+                    ShipName = string.Format("{0} -- Ship Size {1} KG", s.ShipName, s.IMO)
+                })
+                .ToList();
+            //ViewBag.shipdropdown = new SelectList(shiplist, "ShipId", "ShipName");
+            ViewBag.shipdropdown = shiplist;
+
             if (ModelState.IsValid)
             {
-                db.Entry(booking).State = EntityState.Modified;
+
+                db.Entry(booking).State = EntityState.Added;
+                
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -117,7 +140,7 @@ namespace ddac.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.Bookings.Find(id);
+            Schedule booking = db.Schedules.Find(id);
             if (booking == null)
             {
                 return HttpNotFound();
@@ -130,8 +153,8 @@ namespace ddac.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Booking booking = db.Bookings.Find(id);
-            db.Bookings.Remove(booking);
+            Schedule booking = db.Schedules.Find(id);
+            db.Schedules.Remove(booking);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -144,5 +167,8 @@ namespace ddac.Controllers
             }
             base.Dispose(disposing);
         }
+
+        
+
     }
 }

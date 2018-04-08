@@ -7,13 +7,13 @@ namespace ddac.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class update8 : IMigrationMetadata
+    public sealed partial class update3 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(update8));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(update3));
         
         string IMigrationMetadata.Id
         {
-            get { return "201801211057376_update8"; }
+            get { return "201804072210252_update3"; }
         }
         
         string IMigrationMetadata.Source

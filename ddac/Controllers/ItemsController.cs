@@ -48,11 +48,11 @@ namespace ddac.Controllers
             {
                 return HttpNotFound();
             }
-            Item item = new Item
-            {
-                Customer = cus
-            };
-            return View(item);
+            //Item item = new Item
+            //{
+            //    Customer = cus
+            //};
+            return View(new Item { Customer = cus});
         }
 
         // POST: Items/Create
@@ -60,14 +60,18 @@ namespace ddac.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddItem([Bind(Include = "ItemId,ItemName,Customer,Weight")] Item item)
+        public ActionResult AddItem([Bind(Include = "ItemId,ItemName,Weight,Destination,Source")] Item item)
         {
+            ModelState.Remove("Status");
             if (ModelState.IsValid)
             {
-                item.Customer = (Customer)TempData["customer"];
-                db.Items.Add(item);
-                db.SaveChanges();
-                return RedirectToAction("Item");
+                    item.Status = "Pending";
+                    item.Customer = (Customer)TempData["customer"];
+                    db.Customers.Attach(item.Customer);
+                    db.Items.Add(item);
+                    db.SaveChanges();
+                    return RedirectToAction("Customer", "Agent");
+                
             }
 
             return View();
@@ -93,7 +97,7 @@ namespace ddac.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ItemId,ItemName,Customer,Weight")] Item item)
+        public ActionResult Edit([Bind(Include = "ItemId,ItemName,Customer,Weight,Source,Destination,Status")] Item item)
         {
             if (ModelState.IsValid)
             {
