@@ -12,7 +12,7 @@ namespace ddac.Migrations
                 c => new
                     {
                         BookingId = c.Int(nullable: false, identity: true),
-                        status = c.String(),
+                        Status = c.String(),
                         Agent_UserId = c.Int(),
                         Item_ItemId = c.Int(),
                         Schedule_ScheduleId = c.Int(),
@@ -25,6 +25,7 @@ namespace ddac.Migrations
                 .Index(t => t.Item_ItemId)
                 .Index(t => t.Schedule_ScheduleId);
             
+            AddColumn("dbo.Schedules", "Weight", c => c.Decimal(nullable: false, precision: 18, scale: 2));
         }
         
         public override void Down()
@@ -35,6 +36,7 @@ namespace ddac.Migrations
             DropIndex("dbo.Bookings", new[] { "Schedule_ScheduleId" });
             DropIndex("dbo.Bookings", new[] { "Item_ItemId" });
             DropIndex("dbo.Bookings", new[] { "Agent_UserId" });
+            DropColumn("dbo.Schedules", "Weight");
             DropTable("dbo.Bookings");
         }
     }

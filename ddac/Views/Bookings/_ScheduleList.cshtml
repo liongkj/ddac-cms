@@ -1,8 +1,5 @@
 ﻿@model IEnumerable<ddac.ViewModels.ScheduleViewModel>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -24,7 +21,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Ship.ShipName)
         </th>
-
+        <th>
+            @Html.DisplayNameFor(model => model.Ship.IMO)
+        </th>
         <th></th>
     </tr>
 
@@ -47,12 +46,14 @@
             @Html.DisplayFor(modelItem => item.Schedule.ShipId)
         </td>
         <td>
-            @Html.DisplayNameFor(model => model.Ship.ShipName)
+            @Html.DisplayFor(modelItem => item.Ship.ShipName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Schedule.ScheduleId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Schedule.ScheduleId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Schedule.ScheduleId })
+            @Html.DisplayFor(modelItem => item.Ship.IMO)
+        </td>
+        <td>
+            @Html.ActionLink("List Booking", "Edit", new { id = item.Schedule.ScheduleId }) 
+            
         </td>
     </tr>
 }

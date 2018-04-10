@@ -19,12 +19,24 @@ namespace ddac.Controllers
         {
             var vm = new User();
             var viewmodel = new AgentViewModel();
+
+            int pending = db.Bookings
+                .Where(b=>b.Status == "pending")
+                .Count();
+            int confirm = db.Bookings.Count() - pending;
+            int noagent = db.Users
+                .Where(u => u.UserType == "agent")
+                .Count();
+
             if (Session["logged"] != null)
             {
                 vm = (User)(Session["logged"]);
                 ViewBag.Message = "Welcome back, " + vm.Username;
                 vm.UserType = "admin";
                 viewmodel.Agent = vm;
+                viewmodel.Confirm = confirm;
+                viewmodel.Pending = pending;
+                viewmodel.NoAgent = noagent;
 
             }
             else
@@ -32,6 +44,26 @@ namespace ddac.Controllers
             return View(viewmodel);
         }
 
+
+        public PartialViewResult _PendingBooking() {
+            var pending = db.Bookings
+                .Where(b => b.Status == "pending")
+                .AsEnumerable()
+                .ToList();
+            return PartialView(pending);
+        }
+
+        
+        public ActionResult AcceptBooking(int? id) {
+
+            Booking booking = db.Bookings.Find(id);
+            booking.Status = "confirmed";
+            db.Entry(booking).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
+           
+        }
 
         [HttpGet]
         public ActionResult Login()

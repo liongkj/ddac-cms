@@ -7,6 +7,38 @@
 
 }
 
-@*<h2>@ViewBag.Message</h2>*@
+<h2>@ViewBag.Message</h2>
 
+<ul class="list-group">
 
+    <li class="list-group-item d-flex justify-content-between align-items-center" style="cursor:pointer;" data-toggle="modal" data-target="#myModal">
+        Pending Booking
+        <span class="badge badge-primary badge-pill">@Html.Encode(Model.Pending)</span>
+
+    </li>
+
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        Confirmed Booking
+        <span class="badge badge-primary badge-pill">@Html.Encode(Model.Confirm)</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        Number of Agents
+        <span class="badge badge-primary badge-pill">@Html.Encode(Model.NoAgent)</span>
+    </li>
+</ul>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Pending Approval</h4>
+            </div>
+            <div class="modal-body">
+                @{
+                    Html.RenderAction("_PendingBooking");
+                }
+            </div>
+        </div>
+    </div>
+</div>

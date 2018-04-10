@@ -60,6 +60,7 @@ namespace ddac.Controllers
 
         }
 
+        [HttpGet]
         public PartialViewResult _AddCustomer()
         {
             return PartialView();

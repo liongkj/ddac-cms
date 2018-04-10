@@ -65,7 +65,6 @@ namespace ddac.Controllers
             ModelState.Remove("Status");
             if (ModelState.IsValid)
             {
-                    item.Status = "Pending";
                     item.Customer = (Customer)TempData["customer"];
                     db.Customers.Attach(item.Customer);
                     db.Items.Add(item);
@@ -97,7 +96,7 @@ namespace ddac.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ItemId,ItemName,Customer,Weight,Source,Destination,Status")] Item item)
+        public ActionResult Edit([Bind(Include = "ItemId,ItemName,Customer,Weight,Source,Destination")] Item item)
         {
             if (ModelState.IsValid)
             {

@@ -1,37 +1,64 @@
-﻿@model ddac.Models.Booking
+﻿@model ddac.ViewModels.BookingViewModel
 
 @{
+
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout-Agent.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Edit Booking</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Booking</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.BookingId)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-            </div>
-        </div>
+@{Html.RenderAction("_BookingList", Model.Schedule.ScheduleId); }
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+<div class="form-group">
+    <fieldset>
+        <label class="control-label" for="readOnlyInput">Schedule :</label>
+        <input class="form-control" id="readOnlyInput" placeholder="@Model.Schedule.ScheduleId" readonly="" type="text">
+    </fieldset>
+
+    <div class="form-group">
+        <fieldset>
+            <label class="control-label" for="readOnlyInput">Weight :</label>
+            <input class="form-control" id="readOnlyInput" placeholder="@Model.Schedule.Weight" readonly="" type="text">
+        </fieldset>
     </div>
-}
+</div>
+
+<div class="form-group">
+    <div class="col-md-6" style="padding-left:0px">
+        <fieldset>
+            <label class="control-label" for="readOnlyInput">Source :</label>
+            <input class="form-control" id="readOnlyInput" placeholder="@Model.Schedule.Source" readonly="" type="text">
+        </fieldset>
+    </div>
+    <div class="col-md-6">
+        <fieldset>
+            <label class="control-label" for="readOnlyInput">Destination :</label>
+            <input class="form-control" id="readOnlyInput" placeholder="@Model.Schedule.Destination" readonly="" type="text">
+        </fieldset>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-6" style="padding-left:0px">
+        <fieldset>
+            <label class="control-label" for="readOnlyInput">Depature :</label>
+            <input class="form-control" id="readOnlyInput" placeholder="@Model.Schedule.Departure" readonly="" type="text">
+        </fieldset>
+    </div>
+    <div class="col-md-6">
+        <fieldset>
+            <label class="control-label" for="readOnlyInput">Arrival :</label>
+            <input class="form-control" id="readOnlyInput" placeholder="@Model.Schedule.Arrival" readonly="" type="text">
+        </fieldset>
+    </div>
+</div>
+
+
+
+
+@{Html.RenderAction("_ItemList");}
 
 <div>
     @Html.ActionLink("Back to List", "Index")

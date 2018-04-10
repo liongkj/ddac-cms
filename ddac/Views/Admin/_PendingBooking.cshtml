@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ddac.Models.Booking>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<table class="table table-bordered table-striped">
+
+    <tr>
+        <th>Booking ID</th>
+        <th>Item Mass</th>
+        <th>Schedule ID</th>
+        <th>Cargo Mass Left</th>
+        <th>Ship</th>
+        <th>Action</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+       
+        var parcelid = "BookingId_" + item.BookingId;
+        var parcelmass = item.Item.Weight + " KG";
+        var cargoid = "Scheduleid_" + item.Schedule.ScheduleId;
+        var cargocapacityleft = "cargocapacityleft_" + item.Schedule.Weight;
+        var shipid = "shipid_" + item.Schedule.ShipId;
+
+        <tr>
+
+            <td>@parcelid</td>
+            <td>@parcelmass</td>
+            <td>@cargoid</td>
+            <td>@cargocapacityleft</td>
+            <td>@shipid</td>
+            <td style="text-align:center">
+                @Html.ActionLink("Approve", "AcceptBooking", new { id = item.BookingId })
+            </td>
+        </tr>
+    }
+</table>
+}
+    @*<script>
+            function Approve(bookingid) {
+                debugger;
+                var parcelid = '#parcelid_' + parcel_id;
+                var parcelmass = '#parcelmass_' + parcel_id;
+                var parcelvolume = '#parcelvolume_' + parcel_id;
+                var cargoid = '#cargoid_' + parcel_id;
+                var cargocapacityleft = '#cargocapacityleft_' + parcel_id;
+                var cargovolumeleft = '#cargovolumeleft_' + parcel_id;
+                var shipid = '#shipid_' + parcel_id;
+
+                var parcelidfield = $(parcelid).html();
+                var parcelmassfield = $(parcelmass).html();
+                var parcelvolumefield = $(parcelvolume).html();
+                var cargoidfield = $(cargoid).html();
+                var cargocapacityleftfield = $(cargocapacityleft).html();
+                var cargovolumeleftfield = $(cargovolumeleft).html();
+                var shipidfield = $(shipid).val();
+
+                var latestcargocapacity = parseInt(cargocapacityleftfield) - parseInt(parcelmassfield);
+                var latestcargovolume = parseInt(cargovolumeleftfield) - parseInt(parcelvolumefield);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/ApproveParcel",
+                    data: { parcelid: parcelidfield, cargomassleft: latestcargocapacity, cargovolumeleft: latestcargovolume, cargoid: cargoidfield },
+                    success: function () {
+                        alert("Successfully Approved");
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            }
+        </script>*@
+

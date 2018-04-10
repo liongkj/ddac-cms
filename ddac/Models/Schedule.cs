@@ -25,6 +25,7 @@ namespace ddac.Models
         public Byte[] TimeStamp { get; set; }
         [Required(ErrorMessage = "Please select a valid Ship")]
         public int ShipId { get; set; }
+        public decimal Weight { get; set; }
 
     }
 

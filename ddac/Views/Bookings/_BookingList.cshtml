@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ddac.Models.Booking>
+
+@{
+    if (Model.Count() > 0)
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookingId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item.Customer)
+                </th>
+                <th></th>
+            </tr>
+
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookingId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.ItemId)
+                        @Html.DisplayFor(modelItem => item.Item.ItemName)
+
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.Customer.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.BookingId })
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <h3> No booking for this shipment yet</h3>
+    }
+}

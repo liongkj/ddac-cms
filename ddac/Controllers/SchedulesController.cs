@@ -69,9 +69,20 @@ namespace ddac.Controllers
         [HttpPost]
         public ActionResult Create(Schedule schedule)
         {
+            string imo = db.Ships.Find(schedule.ShipId).IMO.ToString();
+            decimal weight = 0;
+            if (imo.StartsWith("L")) {
+                weight = 28000;
+            } else if (imo.StartsWith("M")) {
+                weight = 240000;
+            }
+            else if (imo.StartsWith("S")) {
+                weight = 10000;
+            }
 
             if (ModelState.IsValid)
             {
+                schedule.Weight = weight;
                 db.Schedules.Add(schedule);
                 db.SaveChanges();
             }

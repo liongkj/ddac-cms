@@ -10,5 +10,9 @@ namespace ddac.ViewModels
     {
         public User Agent { get; set; }
         public Customer Customers { get; set; }
+
+        public int Pending { get; set; }
+        public int Confirm { get; set; }
+        public int NoAgent { get; set; }
     }
 }

@@ -5,32 +5,11 @@
     Layout = "~/Views/Shared/_Layout-Agent.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Shipping Schedule</h2>
 
 
 @{
     Html.RenderAction("_ScheduleList");
 }
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BookingId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BookingId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.BookingId })
-        </td>
-    </tr>
-}
-
-</table>

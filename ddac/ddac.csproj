@@ -155,6 +155,11 @@
     <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
+    <Compile Include="Migrations\201804100708571_update6.cs" />
+    <Compile Include="Migrations\201804100708571_update6.Designer.cs">
+      <DependentUpon>201804100708571_update6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\BookingViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModel.cs" />
     <Compile Include="Controllers\ShipsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -401,6 +406,9 @@
     <Content Include="Views\Bookings\Edit.cshtml" />
     <Content Include="Views\Bookings\Index.cshtml" />
     <Content Include="Views\Bookings\_ScheduleList.cshtml" />
+    <Content Include="Views\Bookings\_BookingList.cshtml" />
+    <Content Include="Views\Bookings\_ItemList.cshtml" />
+    <Content Include="Views\Admin\_PendingBooking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -428,6 +436,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804080641371_update4.resx">
       <DependentUpon>201804080641371_update4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804100708571_update6.resx">
+      <DependentUpon>201804100708571_update6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
