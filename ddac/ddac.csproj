@@ -38,6 +38,24 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PublishDatabaseSettings>
+      <Objects>
+        <ObjectGroup Name="DefaultConnection-Deployment" Order="1">
+          <Destination Path="" />
+          <Object Type="DbFullSql">
+            <PreSource Path="Data Source=%28LocalDb%29\MSSQLLocalDB%3bAttachDbFilename=|DataDirectory|\ddac.mdf%3bInitial Catalog=aspnet-ddac-fefdc1f0-bd81-4ce9-b712-93a062e01031%3bIntegrated Security=True" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Debug\AutoScripts\DefaultConnection-Deployment_SchemaOnly.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+        <ObjectGroup Name="UserDBContext-Deployment" Order="2">
+          <Destination Path="" />
+          <Object Type="DbFullSql">
+            <PreSource Path="Data Source=%28LocalDb%29\MSSQLLocalDB%3bAttachDbFilename=|DataDirectory|\ddac.mdf%3bInitial Catalog=aspnet-ddac%3bIntegrated Security=True" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Debug\AutoScripts\UserDBContext-Deployment_SchemaOnly.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+      </Objects>
+    </PublishDatabaseSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,6 +65,25 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PublishDatabaseSettings>
+      <Objects>
+        <ObjectGroup Name="DefaultConnection-Deployment" Order="1" xmlns="">
+          <Destination Path="" />
+          <Object Type="DbFullSql">
+            <PreSource Path="Data Source=tcp:cmsserserverdbserver.database.windows.net,1433%3bInitial Catalog=cmsserserver_db%3bPersist Security Info=False%3bUser ID=khaijiet%3bPassword=1q2w3e4r5t6y!%3bConnect Timeout=30%3bEncrypt=True%3bTrustServerCertificate=False" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Release\AutoScripts\DefaultConnection-Deployment_SchemaOnly.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+        <ObjectGroup Name="UserDBContext-Deployment" Order="2" xmlns="">
+          <Destination Path="" />
+          <Object Type="DbFullSql">
+            <PreSource Path="Data Source=%28LocalDb%29\MSSQLLocalDB%3bAttachDbFilename=|DataDirectory|\ddac.mdf%3bInitial Catalog=aspnet-ddac%3bIntegrated Security=True" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Release\AutoScripts\UserDBContext-Deployment_SchemaOnly.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+      </Objects>
+    </PublishDatabaseSettings>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -155,10 +192,11 @@
     <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
-    <Compile Include="Migrations\201804100708571_update6.cs" />
-    <Compile Include="Migrations\201804100708571_update6.Designer.cs">
-      <DependentUpon>201804100708571_update6.cs</DependentUpon>
+    <Compile Include="Migrations\201804111457242_update1.cs" />
+    <Compile Include="Migrations\201804111457242_update1.Designer.cs">
+      <DependentUpon>201804111457242_update1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\BookingViewModel.cs" />
     <Compile Include="ViewModels\ScheduleViewModel.cs" />
     <Compile Include="Controllers\ShipsController.cs" />
@@ -166,23 +204,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201804072156092_init.cs" />
-    <Compile Include="Migrations\201804072156092_init.Designer.cs">
-      <DependentUpon>201804072156092_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804072207497_update 1.cs" />
-    <Compile Include="Migrations\201804072207497_update 1.Designer.cs">
-      <DependentUpon>201804072207497_update 1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804072210252_update3.cs" />
-    <Compile Include="Migrations\201804072210252_update3.Designer.cs">
-      <DependentUpon>201804072210252_update3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201804080641371_update4.cs" />
-    <Compile Include="Migrations\201804080641371_update4.Designer.cs">
-      <DependentUpon>201804080641371_update4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Schedule.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Ship.cs" />
@@ -318,6 +339,8 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <None Include="Properties\PublishProfiles\cmseaserver - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\cmsserserver - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -342,7 +365,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -425,20 +450,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201804072156092_init.resx">
-      <DependentUpon>201804072156092_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804072207497_update 1.resx">
-      <DependentUpon>201804072207497_update 1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804072210252_update3.resx">
-      <DependentUpon>201804072210252_update3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804080641371_update4.resx">
-      <DependentUpon>201804080641371_update4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804100708571_update6.resx">
-      <DependentUpon>201804100708571_update6.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201804111457242_update1.resx">
+      <DependentUpon>201804111457242_update1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

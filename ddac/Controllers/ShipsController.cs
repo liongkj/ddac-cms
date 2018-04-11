@@ -59,7 +59,7 @@ namespace ddac.Controllers
         }
 
         // GET: Ships/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -78,7 +78,7 @@ namespace ddac.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ShipName,IMO")] Ship ship)
+        public ActionResult Edit([Bind(Include = "ShipId,ShipName,IMO")] Ship ship)
         {
             if (ModelState.IsValid)
             {

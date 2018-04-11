@@ -26,7 +26,6 @@ namespace ddac.Models
         public virtual User Agent { get; set; }
         public Address ShippingAddress { get; set; }
 
-
         [ComplexType]
         public class Address
         {

@@ -28,6 +28,7 @@ namespace ddac.Models
     }
 
     public class UserDBContext : DbContext {
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

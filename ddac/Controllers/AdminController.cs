@@ -58,11 +58,20 @@ namespace ddac.Controllers
 
             Booking booking = db.Bookings.Find(id);
             booking.Status = "confirmed";
+
+            updateSchedule(booking.Schedule.ScheduleId,booking.Item.Weight);
+            
             db.Entry(booking).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
 
-           
+        public void updateSchedule(int schedule,decimal itemWeight) {
+            Schedule s = db.Schedules.Find(schedule);
+            s.Weight = s.Weight - itemWeight;
+            db.Entry(s).State = EntityState.Modified;
+            db.SaveChanges();
+
         }
 
         [HttpGet]
